@@ -1,0 +1,2 @@
+class JournalEntryTagsController < ApplicationController
+end

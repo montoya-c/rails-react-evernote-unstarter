@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :users, only: [:create]
+  resources :users, only: [:create, :new]
 
   post '/login', to: 'auth#create'
   get '/profile', to: 'user#profile'
+
+  resources :journal_entries
+  resources :photos
+  resources :tags
+
 
 end

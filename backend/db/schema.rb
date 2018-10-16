@@ -10,27 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_11_203133) do
+ActiveRecord::Schema.define(version: 2018_10_16_153555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "entry_tags", force: :cascade do |t|
-    t.bigint "journal_entry_id"
-    t.bigint "tag_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["journal_entry_id"], name: "index_entry_tags_on_journal_entry_id"
-    t.index ["tag_id"], name: "index_entry_tags_on_tag_id"
-  end
-
   create_table "journal_entries", force: :cascade do |t|
     t.string "title"
-    t.text "entry"
+    t.text "content"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_journal_entries_on_user_id"
+  end
+
+  create_table "journal_entry_tags", force: :cascade do |t|
+    t.integer "journal_entry_id"
+    t.integer "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "photos", force: :cascade do |t|
@@ -50,16 +48,14 @@ ActiveRecord::Schema.define(version: 2018_10_11_203133) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "password_digest"
-    t.string "first_name"
-    t.string "last_name"
     t.string "email"
+    t.string "last_name"
+    t.string "first_name"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "entry_tags", "journal_entries"
-  add_foreign_key "entry_tags", "tags"
   add_foreign_key "journal_entries", "users"
   add_foreign_key "photos", "journal_entries"
 end
