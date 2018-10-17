@@ -10,9 +10,10 @@ class ApplicationController < ActionController::API
     request.headers['Authorization']
   end
 
-  def decoded_token(token)
+  def decoded_token
+    # def decoded_token(token)
     if auth_header
-      token = auth_header.split('')[1]
+      token = auth_header.split(' ')[1]
       begin
     JWT.decode(token, 'xingona', true, algorithm: 'HS256')
     rescue JWT::DecodeError
@@ -22,6 +23,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
+    
       if decoded_token
 
         user_id = decoded_token[0]['user_id']
