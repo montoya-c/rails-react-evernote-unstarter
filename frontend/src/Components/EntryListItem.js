@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
-export default class EntryListItem extends Component{
-
-  render(){
+const EntryListItem = (props) => {
+    const style = {border: "1px solid black", padding: "1rem", margin: "1rem", overflow: 'hidden',
+    textOverflow: 'ellipsis'}
     return(
-      <div>
-      </div>
-    )
-  }
+      <div style={style} onClick={e=> props.handleEntryClick(e)}>
+        <h2>{props.journalEntry.title}</h2>
+        <p >{props.journalEntry.content}</p>
 
+      </div>
+
+    )
 }
+export default EntryListItem

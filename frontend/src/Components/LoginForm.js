@@ -4,7 +4,7 @@ const LoginForm = (props) => {
   return (
       <div>
         <form onSubmit ={e => e.preventDefault()}>
-          <h1>Login</h1>
+          <h1>WritroSpect</h1>
           <div>
             <input type="text" onChange={props.handleChange} placeholder="username" name= "username"/>
             <label htmlFor="username">Username</label>

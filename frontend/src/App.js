@@ -10,40 +10,37 @@ class App extends Component {
     this.state = {
       isLoading: true,
       isLoggedIn: false,
-      // journal entries: [],
+      userData: null
+      // journal_entries: [],
       // selectedJournalEntry: null
     }
   }
 
-  // componentDidMount(){
-  //   //is user logged in?
-  // }
-  //
-  // handleChange = e =>{
-  //   this.setState({
-  //     [e.target.name]: e.target.value
-  //   });
-  // };
-  //
-  // login = e =>{
-  //   e.preventDefault
-  //
-  //   fetch('http://localhost:3000/login')
-  //   .then(resp => resp.json())
-  //   .then(data =>{
-  //     if (!data.error){
-  //       localStorage.token = data.token;
-  //     }
-  //   })
-  // }
+  getUserData = () =>{
+    if (localStorage.token){
+      fetch('http://localhost:3000/profile',{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.token}`
+        },
+      })
+      .then(resp => resp.json())
+      .then(resp => {
+        this.setState({ userData: resp })
+      })
+    }
+  }
 
-
+  componentDidMount() {
+    this.getUserData()
+  }
 
   render() {
     return (
       <div className="App">
-       <Header isLoggedIn ={this.state.isLoggedIn}/>
-       <JournalContainer />
+       <Header isLoggedIn ={this.state.isLoggedIn} />
+       {this.state.userData ? (<JournalContainer userData={this.state.userData}/>) : null }
       </div>
     );
   }
