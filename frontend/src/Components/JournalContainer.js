@@ -12,6 +12,17 @@ export default class JournalContainer extends Component{
   }
 
 
+  updateJournalEntries = (resp) => {
+      let entryIndex = this.state.journalEntries.findIndex(journalEntry => {
+        return journalEntry.id === resp.id
+    })
+    this.state.journalEntries.splice(entryIndex, 1, resp)
+    this.setState({
+      journalEntries: this.state.journalEntries,
+      selectedJournalEntry: resp
+    })
+  }
+
 
   selectedJournalEntry = () => {
     fetch(`http://localhost:3000/profile/${this.props.journalEntry.id}`)
@@ -21,12 +32,18 @@ export default class JournalContainer extends Component{
     }))
   }
 
-  handleEntryClick = (e) => {
-    console.log("clicked")
+  handleEntryClick = (journalEntry) => {
+    console.log("clicked an entry")
     this.setState({
-      selectedJournalEntry: e.target.value
+      selectedJournalEntry: journalEntry
     })
   }
+
+
+  handleCreateNewClick = (e) => {
+    console.log("si funciona eso")
+  }
+
 
   render(){
     const style = {border: "1px solid black", padding: "1rem", margin: "1rem"}
@@ -34,9 +51,10 @@ export default class JournalContainer extends Component{
       <div className="JournalContainer" style={style} >
         <h2>Journaling Page</h2>
         <SearchBar />
-        <EntryDisplay selectedJournalEntry={this.state.selectedJournalEntry}/>
-        <EntryForm />
-        <SidebarEntryList journalEntries={this.state.journalEntries} handleEntryClick={this.handleEntryClick}/>
+        {this.state.selectedJournalEntry ? <EntryDisplay selectedJournalEntry={this.state.selectedJournalEntry} updateJournalEntries={this.updateJournalEntries}/> : ''}
+        <EntryForm handleCreateNewClick={this.handleCreateNewClick}/>
+        <SidebarEntryList journalEntries={this.state.journalEntries} handleEntryClick={this.handleEntryClick} handleCreateNewClick ={this.handleCreateNewClick}
+          />
       </div>
     )
   }

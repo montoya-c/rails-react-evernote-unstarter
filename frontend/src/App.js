@@ -17,7 +17,7 @@ class App extends Component {
   }
 
   getUserData = () =>{
-    if (localStorage.token){
+    if (localStorage.token !== "undefined"){
       fetch('http://localhost:3000/profile',{
         method: 'GET',
         headers: {
@@ -27,7 +27,7 @@ class App extends Component {
       })
       .then(resp => resp.json())
       .then(resp => {
-        this.setState({ userData: resp })
+        this.setState({ userData: resp, isLoggedIn: true })
       })
     }
   }
@@ -36,10 +36,18 @@ class App extends Component {
     this.getUserData()
   }
 
+  setUser = (user) => {
+      this.setState({
+        userData: user,
+        isLoggedIn: true
+      })
+  }
+
   render() {
+    console.log(this.state.userData)
     return (
       <div className="App">
-       <Header isLoggedIn ={this.state.isLoggedIn} />
+       <Header isLoggedIn ={this.state.isLoggedIn} userData={this.state.userData} setUser={this.setUser}/>
        {this.state.userData ? (<JournalContainer userData={this.state.userData}/>) : null }
       </div>
     );

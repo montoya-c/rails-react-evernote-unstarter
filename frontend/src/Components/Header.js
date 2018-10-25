@@ -4,8 +4,7 @@ import LoginForm from '../Components/LoginForm';
 export default class Header extends Component {
     state = {
       username: "",
-      password: "",
-      currentUser:{}
+      password: ""
     };
     componentDidMount(){
       //is user logged in?
@@ -63,9 +62,7 @@ export default class Header extends Component {
 
         if (data.jwt){
           localStorage.token = data.jwt;
-          this.setState({
-            currentUser: data.user
-          })
+          this.props.setUser(data.user)
         }})
           .catch(err => {
             console.log(err)
@@ -73,13 +70,21 @@ export default class Header extends Component {
     };
 
 
+
+
 render(){
   return(
     <div>
-    <header className="App-header">
-      {this.state.currentUser.id ? (<h1>Hello {this.state.currentUser.username}</h1>) : null }
-    <LoginForm isLoggedIn = {this.props.isLoggedIn} handleChange={this.handleChange} login={this.login}/>
-    </header>
+      {this.props.isLoggedIn ?   <header className="App-header">
+          {(<h1>Hello {this.props.userData.username}</h1>)  }
+        </header>
+
+        :
+
+        <header className="App-header">
+      <LoginForm  handleChange={this.handleChange} login={this.login}/>
+      </header> }
+
     </div>
   )
 }
